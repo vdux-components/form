@@ -5,6 +5,7 @@
 import serialize from '@f/serialize-form'
 import identity from '@f/identity'
 import element from 'vdux/element'
+import noop from '@f/noop'
 
 /**
  * Constants
@@ -17,7 +18,7 @@ const defaultValidate = () => ({valid: true})
  */
 
 function render ({props, children}) {
-  const {onSubmit = identity, validate = defaultValidate, cast = identity, loading = false} = props
+  const {onSubmit = noop, validate = defaultValidate, cast = identity, loading = false} = props
 
   return (
     <form no-validate onSubmit={handleSubmit} onChange={handleChange}>
@@ -29,21 +30,20 @@ function render ({props, children}) {
     e.preventDefault()
 
     const form = e.target
-    const valid = checkValidity(form)
+    const model = cast(serialize(form))
+    const valid = checkValidity(form, model)
 
     if (!loading && valid) {
-      const model = cast(serialize(form))
       return onSubmit(model, (res, err) => err && invalidate(form, err))
     }
   }
 
   function handleChange (e) {
     const {name, form} = e.target
-    checkValidity(form, name)
+    checkValidity(form, cast(serialize(form)), name)
   }
 
-  function checkValidity (form, name) {
-    const model = cast(serialize(form))
+  function checkValidity (form, model, name) {
     const {valid, errors} = validate(model, name)
 
     if (!valid) {
