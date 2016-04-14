@@ -34,7 +34,9 @@ function render ({props, children}) {
     const valid = checkValidity(form, model)
 
     if (!loading && valid) {
-      return onSubmit(model, (res, err) => err && invalidate(form, err))
+      const q = onSubmit(model)
+      if (q.then) q.then(null, err => err && invalidate(form, err))
+      return q
     }
   }
 
