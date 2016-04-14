@@ -21,7 +21,7 @@ function render ({props, children}) {
   const {onSubmit = noop, validate = defaultValidate, cast = identity, loading = false} = props
 
   return (
-    <form no-validate onSubmit={handleSubmit} onChange={handleChange}>
+    <form novalidate onSubmit={handleSubmit} onChange={handleChange}>
       {children}
     </form>
   )
