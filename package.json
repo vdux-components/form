@@ -2,7 +2,7 @@
   "name": "vdux-form",
   "description": "vdux form component",
   "repository": "git://github.com/vdux-components/form.git",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "license": "MIT",
   "main": "lib/index.js",
   "scripts": {
