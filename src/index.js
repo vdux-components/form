@@ -5,6 +5,7 @@
 import serialize from '@f/serialize-form'
 import identity from '@f/identity'
 import element from 'vdux/element'
+import {Base} from 'vdux-ui'
 import noop from '@f/noop'
 
 /**
@@ -21,9 +22,9 @@ function render ({props, children}) {
   const {onSubmit = noop, validate = defaultValidate, cast = identity, loading = false} = props
 
   return (
-    <form novalidate onSubmit={handleSubmit} onChange={handleChange}>
+    <Base tag='form' novalidate onSubmit={handleSubmit} onChange={handleChange}>
       {children}
-    </form>
+    </Base>
   )
 
   function handleSubmit (e) {

@@ -13,7 +13,8 @@
   "dependencies": {
     "@f/identity": "^1.1.1",
     "@f/noop": "^1.2.0",
-    "@f/serialize-form": "^1.0.0"
+    "@f/serialize-form": "^1.0.0",
+    "vdux-ui": "^1.2.0"
   },
   "devDependencies": {
     "babel-cli": "^6.5.1",
