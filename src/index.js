@@ -19,10 +19,10 @@ const defaultValidate = () => ({valid: true})
  */
 
 function render ({props, children}) {
-  const {onSubmit = noop, validate = defaultValidate, cast = identity, loading = false} = props
+  const {onSubmit = noop, validate = defaultValidate, cast = identity, loading = false, ...rest} = props
 
   return (
-    <Base tag='form' novalidate onSubmit={handleSubmit} onChange={handleChange}>
+    <Base tag='form' novalidate onSubmit={handleSubmit} onChange={handleChange} {...rest}>
       {children}
     </Base>
   )
