@@ -13,13 +13,14 @@ import noop from '@f/noop'
  */
 
 const defaultValidate = () => ({valid: true})
+let defaultTransformError = identity
 
 /**
  * Form component
  */
 
 function render ({props, children}) {
-  const {onSubmit = noop, validate = defaultValidate, cast = identity, loading = false, ...rest} = props
+  const {onSubmit = noop, validate = defaultValidate, cast = identity, transformError = defaultTransformError, loading = false, ...rest} = props
 
   return (
     <Base tag='form' novalidate onSubmit={handleSubmit} onChange={handleChange} {...rest}>
@@ -27,7 +28,7 @@ function render ({props, children}) {
     </Base>
   )
 
-  function handleSubmit (e) {
+  function *handleSubmit (e) {
     e.preventDefault()
 
     const form = e.target
@@ -35,7 +36,12 @@ function render ({props, children}) {
     const valid = checkValidity(form, model)
 
     if (!loading && valid) {
-      return onSubmit(model, (res, err) => err && invalidate(form, err))
+      try {
+        yield onSubmit(model)
+      } catch (err) {
+        const newErr = transformError(err)
+        if (newErr) invalidate(form, newErr)
+      }
     }
   }
 
@@ -70,10 +76,15 @@ function render ({props, children}) {
   }
 }
 
+function setTransformError (transformError) {
+  defaultTransformError = transformError
+}
+
 /**
  * Exports
  */
 
 export default {
-  render
+  render,
+  setTransformError
 }
