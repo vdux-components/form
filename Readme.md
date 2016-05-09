@@ -18,6 +18,8 @@ vdux form component
   * `cast` - Before being validated you can transform the model with this. It should accept a model and return a new model.
   * `loading` - Whether or not the form is currently loading. If `true`, submits will be disabled. Defaults to false.
   * `transformError` - Transform an error response from your `onSubmit` function into a form that is consumable by `vdux-form`. A default can be specified using `setTransformError`.
+  * `onSuccess` - Run if `onSubmit` succeeds; receives the result as its first argument
+  * `onFailure` - Run if `onSubmit` throws an error; receives the error as its first argument
 
 ## Validation
 

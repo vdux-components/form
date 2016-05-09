@@ -20,7 +20,10 @@ let defaultTransformError = identity
  */
 
 function render ({props, children}) {
-  const {onSubmit = noop, validate = defaultValidate, cast = identity, transformError = defaultTransformError, loading = false, ...rest} = props
+  const {
+    onSubmit = noop, onSuccess = noop, onFailure = noop, validate = defaultValidate,
+    cast = identity, transformError = defaultTransformError, loading = false, ...rest
+  } = props
 
   return (
     <Base tag='form' novalidate onSubmit={handleSubmit} onChange={handleChange} {...rest}>
@@ -37,8 +40,11 @@ function render ({props, children}) {
 
     if (!loading && valid) {
       try {
-        yield onSubmit(model)
+        const result = yield onSubmit(model)
+        yield onSuccess(result)
       } catch (err) {
+        yield onFailure(err)
+
         const newErr = transformError(err)
         if (newErr) invalidate(form, newErr)
       }
