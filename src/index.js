@@ -39,15 +39,24 @@ function render ({props, children}) {
     const valid = checkValidity(form, model)
 
     if (!loading && valid) {
-      try {
-        const result = yield onSubmit(model)
-        yield onSuccess(result)
-      } catch (err) {
+      const [result, err] = yield poss(onSubmit(model))
+
+      if (err) {
         yield onFailure(err)
 
         const newErr = transformError(err)
         if (newErr) invalidate(form, newErr)
+      } else {
+        yield onSuccess(result)
       }
+    }
+  }
+
+  function * poss (gen) {
+    try {
+      return [yield gen, null]
+    } catch (err) {
+      return [null, err]
     }
   }
 
