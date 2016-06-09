@@ -33,6 +33,7 @@ function render ({props, children}) {
 
   function *handleSubmit (e) {
     e.preventDefault()
+    e.stopPropagation()
 
     const form = e.target
     const model = cast(serialize(form))
