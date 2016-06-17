@@ -82,7 +82,7 @@ function render ({props, children}) {
     }
 
     errors.forEach(({field, message}) => {
-      const ctrl = form.querySelector(`[name="${field}"]`)
+      const ctrl = form.querySelector(`[name="${dotsToBrackets(field)}"]`)
 
       if (ctrl) {
         ctrl.setCustomValidity(message)
@@ -94,6 +94,10 @@ function render ({props, children}) {
 
 function setTransformError (transformError) {
   defaultTransformError = transformError
+}
+
+function dotsToBrackets (str) {
+  return str.split('.').map((part, idx) => idx === 0 ? part : '[' + part + ']').join('')
 }
 
 /**
