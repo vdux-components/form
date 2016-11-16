@@ -2,7 +2,7 @@
  * Imports
  */
 
-import {preventDefault, decodeNode, component, element} from 'vdux'
+import {preventDefault, decodeNode, stopPropagation, component, element} from 'vdux'
 import serialize from '@f/serialize-form'
 import identity from '@f/identity'
 import {Base} from 'vdux-ui'
@@ -23,7 +23,7 @@ export default component({
   render ({props, children, actions}) {
 
     return (
-      <Base tag='form' novalidate {...props} onSubmit={[decodeNode(actions.handleSubmit), preventDefault]} onChange={decodeNode(actions.handleChange)}>
+      <Base tag='form' novalidate {...props} onSubmit={[decodeNode(actions.handleSubmit), preventDefault, stopPropagation]} onChange={decodeNode(actions.handleChange)}>
         {children}
       </Base>
     )
